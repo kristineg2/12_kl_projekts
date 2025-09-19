@@ -1,0 +1,53 @@
+.ietvars {
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    background: rgb(184, 218, 169);
+}
+
+h1 {
+    text-align: center;
+    background: rgb(176, 204, 226);
+    color: rgb(10, 24, 24);
+}
+
+ul {
+    text-align: center;
+    padding: 0px;
+}
+
+li {
+    display: inline-block;
+}
+
+.spele_lauk {
+    width: 500px;
+    background: black;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.bloks {
+    display: inline-block;
+    background: rgb(124, 42, 201);
+    width: 100px;
+    height: 100px;
+    margin: 5px;
+    font-size: 45px;
+}
+
+a:link, a:visited {
+    background-color: rgb(189, 102, 102);
+    color: rgb(141, 59, 59);
+    border: px solid red;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+a:hover, a:active {
+    background-color: white;
+    color: rgb(199, 112, 112);
+}
