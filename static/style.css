@@ -2,13 +2,13 @@
     width: 600px;
     margin-left: auto;
     margin-right: auto;
-    background: rgb(184, 218, 169);
+    background: rgb(232, 232, 233);
 }
 
 h1 {
     text-align: center;
-    background: rgb(176, 204, 226);
-    color: rgb(10, 24, 24);
+    background: rgb(152, 198, 241);
+    color: rgb(184, 235, 66);
 }
 
 ul {
@@ -20,34 +20,57 @@ li {
     display: inline-block;
 }
 
-.spele_lauk {
-    width: 500px;
+.speles_lauk {
+    display: flex;
+    flex-wrap: wrap;
+
+    width: 485px;
     background: black;
     text-align: center;
-    margin-left: auto;
-    margin-right: auto;
+    margin: auto;
+    padding: 10px;
+
 }
 
 .bloks {
-    display: inline-block;
-    background: rgb(124, 42, 201);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgb(235, 113, 113);
     width: 100px;
     height: 100px;
-    margin: 5px;
+    margin: 10px;
     font-size: 45px;
+    border-radius: 5px;
+    transition: background 0.3s;
 }
 
-a:link, a:visited {
-    background-color: rgb(189, 102, 102);
-    color: rgb(141, 59, 59);
-    border: px solid red;
-    padding: 10px 20px;
-    text-align: center;
+.bloks:hover {
+    background:  #ff4747;
+    cursor: pointer;
+}
+
+a {
     text-decoration: none;
     display: inline-block;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s, transform 0.2s;
+    background-color: #007BFF;
+    color: white;
+    border: 2px solid #0056b3;
 }
 
-a:hover, a:active {
-    background-color: white;
-    color: rgb(199, 112, 112);
+a:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+a:active {
+    background-color: #007BFF;
+    color: rgb(178, 236, 130);
+    transform: scale(1.05);
 }
