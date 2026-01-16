@@ -1,12 +1,45 @@
 
 //no URL iegūst vārdu
 let adrese = window.location.hash.substring(1);
-vards = decodeURI(adrese.split(',')[0]);
-
+let vards = decodeURI(adrese.split(',')[0] || '').trim();
 
 //mainīgie spēles darbībai
-let laiks = 0
-let klikski = 0
+let laiks = 0;
+let klikski = 0;
+
+//taimera mainīgie, taimeris strādā ar pirmo klikski
+let timerId = null;
+let timerStarted = false;
+
+function formatTime(seconds) {
+    const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+    const s = String(seconds % 60).padStart(2, '0');
+    return `${m}:${s}`
+}
+
+function updateHUD() {
+    const elLaiks = document.querySelector('#laiks');
+    const elKlikski = document.querySelector('#klikski');
+    if (elLaiks) elLaiks.textContent = formatTime(laiks);
+    if (elKlikski) elKlikski.textContent = klikski;
+}
+
+function startTimerIfNeeded() {
+    if (timerStarted) return;
+    timerStarted = true;
+    timerId = setInterval(() => {
+        laiks++;
+        updateHUD();
+    }, 1000);
+}
+
+function stopTimer() {
+    if (timerId) {
+        clearInterval(timerId);
+        timerId = null;
+    }
+}
+
 //masīvi spēles darbībai
 const laukumi = ['L01','L02','L03','L04','L05','L06','L07','L08','L09','L10','L11','L12']
 const laukumiSaturs = ['👽','🤖','😇','👽','🤕','🤠','🤕','🥶','🤠','🤖','🥶','😇']
@@ -14,7 +47,7 @@ let atvertieLaukumi = []
 let pedejieDivi = []
 
 //Sajauc smailikus nejaušā secībā (Fisher-Yates algoritms)
-let laukumiSajaukti = laukumiSaturs.sort(() => Math.random() - 0.5);
+let laukumiSajaukti = [...laukumiSaturs].sort(() => Math.random() - 0.5);
 
 //Ģenerē spēles laukumu dinamiski
 document.addEventListener("DOMContentLoaded", function() {
