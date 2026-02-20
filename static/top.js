@@ -2,7 +2,7 @@ function formatTime(seconds) {
     seconds = Number(seconds) || 0;
     const m = String(Math.floor(seconds / 60)).padStart(2, '0');
     const s = String(seconds % 60).padStart(2, '0');
-    retunr `${m}:${s}`
+    return `${m}:${s}`
 }
 
 function parseHash() {
@@ -10,22 +10,22 @@ function parseHash() {
     if (!raw) return null;
 
     const parts = decodeURI(raw).split(',');
-    const vards = (parts[0] || '').trimEnd();
+    const vards = (parts[0] || '').trim();
     const klikski = Number(parts[1]);
     const laiks = Number(parts[2]);
-    if (!vards || Number.itNaN(klikski) || Number.isNaN(laiks)) return null
+    if (!vards || Number.isNaN(klikski) || Number.isNaN(laiks)) return null;
     return {vards, klikski, laiks};
-}
+ }
 
-async function iegutDatusNoApi(url) {
+ async function iegutDatusNoApi(url) {
     const response = await fetch(url);
     if (!response.ok) {
         throw new Error(`HTTP kļūda! Statuss: ${response.status}`);
     }
     return await response.json();
-}
+ }
 
-function iztiritTabulu() {
+ function iztiritTabulu() {
     const tabula = document.querySelector('.tops');
     //tikai virsraksta rinda
     tabula.innerHTML = `
@@ -34,10 +34,10 @@ function iztiritTabulu() {
             <td>Klikšķi</td>
             <td>Laiks</td>
             <td>Datums</td>
-        <tr>`;
-}
+        </tr>`;
+ }
 
-function aizpilditTabulu(ieraksti) {
+ function aizpilditTabulu(ieraksti) {
     const tabula = document.querySelector('.tops');
     ieraksti.forEach(ieraksts => {
         tabula.innerHTML += `
@@ -48,9 +48,9 @@ function aizpilditTabulu(ieraksti) {
                 <td>${ieraksts.datums}</td>
             </tr>`;
     });
-}
+ }
 
-async function atlasitTop() {
+ async function atlasitTop() {
     try {
         const topJson = await iegutDatusNoApi('/topData');
         iztiritTabulu();
@@ -58,28 +58,29 @@ async function atlasitTop() {
     } catch (kluda) {
         console.error("Kļūda iegūstot top datus", kluda);
     }
-}
+ }
 
-async function pievienotiesTopam(rezultats) {
+ async function pievienotiesTopam(rezultats) {
     const poga = document.querySelector('#pievienotTopam');
     const statuss = document.querySelector('#pievienotStatuss');
     try {
         if (poga) poga.disable = true;
-        if (statuss) statuss.textContent = 'Saglabā....';
+        if (statuss) statuss.textContent = 'Saglabā...';
         const payload = {
-            vards: rezultats.vards,
-            klikski: rezultats,klikski,
-            laiks: rezultats,laiks,
+            varads: rezultats.vards,
+            klikski: rezultats.klikski,
+            laiks: rezultats.laiks,
             datums: new Date().toISOString().split('T')[0]
         };
         const response = await fetch('/pievienot-rezultatu', {
             method: 'POST',
-            header: {'Content-Type': 'application/json'},
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(payload)
         });
         if (!response.ok) {
             throw new Error(`Neizdevās saglabāt! Statuss: ${response.status}`);
         }
+
         if (statuss) statuss.textContent = "Rezultāts ir pievienots TOPam!";
         await atlasitTop();
     } catch (e) {
@@ -87,10 +88,10 @@ async function pievienotiesTopam(rezultats) {
         if (statuss) statuss.textContent = "Kļūda, neizdevās pievienot rezultātu topam.";
         if (poga) poga.disabled = false;
     }
-}
+ }
 
 
-document.addEventListener('DOMContentLoaded', async () => {
+ document.addEventListener('DOMContentLoaded', async () => {
     await atlasitTop();
     const rezultats = parseHash();
     const konteiners = document.querySelector('#rezultatsKonteiners');
@@ -106,7 +107,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             poga.addEventListener('click', () => pievienotiesTopam(rezultats));
         }
 
+
     } else {
         //ja nav spēles rezultāta, poga netiek rādīta (konteiners paliek display:none)
     }
-});
+ });

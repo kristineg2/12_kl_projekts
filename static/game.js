@@ -1,4 +1,3 @@
-
 //no URL iegūst vārdu
 let adrese = window.location.hash.substring(1);
 let vards = decodeURI(adrese.split(',')[0] || '').trim();
@@ -7,7 +6,7 @@ let vards = decodeURI(adrese.split(',')[0] || '').trim();
 let laiks = 0;
 let klikski = 0;
 
-//taimera mainīgie, taimeris strādā ar pirmo klikski
+//taimera mainīgie, taimeris strādā ar 1.klikski
 let timerId = null;
 let timerStarted = false;
 
@@ -49,9 +48,11 @@ let pedejieDivi = []
 //Sajauc smailikus nejaušā secībā (Fisher-Yates algoritms)
 let laukumiSajaukti = [...laukumiSaturs].sort(() => Math.random() - 0.5);
 
+
+
 //Ģenerē spēles laukumu dinamiski
 document.addEventListener("DOMContentLoaded", function() {
-    //ja vards nav , aizsūta uz sākumlapu
+    //ja vāds nav, aizūta uz sākumlapu
     if (!vards) {
         window.location.href = '/';
         return;
@@ -68,7 +69,6 @@ document.addEventListener("DOMContentLoaded", function() {
             veiktGajienu(bloks, emoji);
         });
         spelesLauks.appendChild(bloks);
-
     });
 
     const elVards = document.querySelector('#vardsHUD');
@@ -80,26 +80,27 @@ function veiktGajienu(bloks, emoji) {
     if (bloks.classList.contains("atverts") || pedejieDivi.length === 2) {
         return //neļauj klikšķināt uz jau atvērtām kartītēm vai ja 2 atvērtas
     }
-
+    
     startTimerIfNeeded();
     //parāda emoji tikai uzklikšķinot
     bloks.innerText = emoji;
     bloks.classList.add("atverts");
     klikski++;
     updateHUD();
+
     //saglabā 2 pēdējās kartītes
     pedejieDivi.push({bloks, emoji});
 
     //ja atvērtas 2 kartītes, pārbauda vai sakrīt
     if (pedejieDivi.length === 2) {
         let [pirmais, otrais] = pedejieDivi;
-         //ja atvērtas divas kartites, parbauda vai vienādas
+        //ja atvērtas 2 kartītes, pārbauda vai vienādas
         if (pirmais.emoji === otrais.emoji) {
             atvertieLaukumi.push(pirmais, otrais);
             pedejieDivi = [];
 
             //vai spēle pabeigta (visi laukumi atvērti)
-            if(atvertieLaukumi.length === laukumiSajaukti.length) {
+            if (atvertieLaukumi.length === laukumiSajaukti.length) {
                 stopTimer();
 
                 //parāda rezultātu
@@ -111,12 +112,12 @@ function veiktGajienu(bloks, emoji) {
 
             }
         } else {
-            //ja vini nav vienādi
+            //ja 2 atvērtie nav vienādi
             setTimeout(() => {
                 pirmais.bloks.innerText = "";
                 otrais.bloks.innerText = "";
                 pirmais.bloks.classList.remove("atverts");
-                otrais.bloks.classList.remove("atversts");
+                otrais.bloks.classList.remove("atverts");
                 pedejieDivi = [];
             }, 800);
         }
